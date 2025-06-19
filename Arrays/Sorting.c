@@ -33,6 +33,59 @@ void bubbleSort(int* arr, int size) {
     }
 }
 
+void selectionSort(int* arr, int size) {
+    for (int i = 0; i < size - 1; i++) {
+        int min_index = i;
+        for (int j = i+1; j < size; j++) {
+            if(arr[min_index] > arr[j]) {
+                min_index = j;
+            }
+        }
+        if (min_index != i) {
+            swap(arr+i, arr+min_index);
+        }
+    }
+}
+
+void insertionSort(int* arr, int size) {
+    for (int i = 1; i < size; i++) {
+        int j = i - 1;
+        int key = arr[i];   // extracted element
+        // move all the elements greater than key to the right side
+        while (j >= 0 && key < arr[j]) {
+            arr[j+1] = arr[j];
+            j = j-1;
+        }
+        // find the correct position for key
+        arr[j+1] = key;
+    }
+}
+
+void merge(int *arr, int left, int mid, int right) {
+    int left_size = mid - left + 1, right_size = right - mid;
+    int left_arr[left_size], right_arr[right_size];
+
+    for (int i = 0; i < left_size; i++) left_arr[i] = arr[left + i];
+    for (int i = 0; i < right_size; i++) right_arr[i] = arr[mid + 1 + i];
+    
+    int i=0, j=0, k=left;
+    while (i < left_size && j < right_size) {
+        arr[k++] = (left_arr[i] <= right_arr[j]) ? left_arr[i++] : right_arr[j++];
+    }
+
+    while(i < left_size) arr[k++] = left_arr[i++];
+    while(j < right_size) arr[k++] = right_arr[j++];
+}
+
+void mergeSort(int *arr, int left, int right) {
+    if (left < right) {
+        int mid = (left + right) / 2;
+        mergeSort(arr, left, mid);  // left subarray
+        mergeSort(arr, mid+1, right); // right subarray
+        merge(arr, left, mid, right);
+    }
+}
+
 int main() {
     int size;
 
@@ -50,7 +103,10 @@ int main() {
     printf("\nBefore Sorting: ");
     printArray(arr, size);
 
-    bubbleSort(arr, size);
+    // bubbleSort(arr, size);
+    // selectionSort(arr, size);
+    // insertionSort(arr, size);
+    mergeSort(arr, 0, size-1);
 
     printf("\nAfter Sorting: ");
     printArray(arr, size);
