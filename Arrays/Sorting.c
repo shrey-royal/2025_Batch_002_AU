@@ -3,7 +3,6 @@
 #include <stdbool.h>
 #include <time.h>
 
-
 void printArray(int *arr, int size) {
     printf("{ ");
     for (int i = 0; i < size; i++) {
@@ -86,6 +85,36 @@ void mergeSort(int *arr, int left, int right) {
     }
 }
 
+int partition(int arr[], int left, int right) {
+    int i = (left - 1);
+
+    int pivot = arr[right];
+
+    int j;
+    for (j = left; j < right; j++) {
+        if (arr[j] <= pivot) {
+            // if current element is smaller than pivot
+            i++;    // increase the index of smaller element
+            swap(&arr[i], &arr[j]);
+        }
+    }
+    swap(&arr[i+1], &arr[right]);   // place the last element i.e. the pivot to its correct position
+
+    return (i+1);
+}
+
+void quickSort(int arr[], int left, int right) {
+    if (right > left) {
+        // partitioning index is returned by the partition function
+        // element is at its correct position
+        int partitionIndex = partition(arr, left, right);
+        
+        // sorting elements before and after the partition index
+        quickSort(arr, left, partitionIndex-1);
+        quickSort(arr, partitionIndex+1, right);
+    }
+}
+
 int main() {
     int size;
 
@@ -97,7 +126,7 @@ int main() {
     int arr[size];
 
     for (int i = 0; i < size; i++) {
-        arr[i] = rand() % 100;
+        arr[i] = (rand() % 100) - 49;
     }
 
     printf("\nBefore Sorting: ");
@@ -106,7 +135,8 @@ int main() {
     // bubbleSort(arr, size);
     // selectionSort(arr, size);
     // insertionSort(arr, size);
-    mergeSort(arr, 0, size-1);
+    // mergeSort(arr, 0, size-1);
+    quickSort(arr, 0, size-1);
 
     printf("\nAfter Sorting: ");
     printArray(arr, size);
