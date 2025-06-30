@@ -26,6 +26,20 @@ void insertAtBeginning(node** head, int data) {
     *head = newNode;
 }
 
+void insertAtEnd(node** head, int data) {
+    node* newNode = createNode(data);
+    if (*head == NULL) {
+        *head = newNode;
+    } else {
+        node* temp = *head;
+        while(temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+}
+
+
 void printList(node* head) {
     printf("\nList: ==> ");
     while(head != NULL) {
@@ -39,12 +53,15 @@ int main() {
     node* head = NULL;
 
     printList(head);
-    insertAtBeginning(&head, 10);
-    insertAtBeginning(&head, 20);
-    insertAtBeginning(&head, 30);
-    insertAtBeginning(&head, 40);
-    insertAtBeginning(&head, 50);
-    insertAtBeginning(&head, 60);
+    // insertAtBeginning(&head, 10);
+    // insertAtBeginning(&head, 20);
+    // insertAtBeginning(&head, 30);
+    // insertAtBeginning(&head, 40);
+    // insertAtBeginning(&head, 50);
+    // insertAtBeginning(&head, 60);
+    insertAtEnd(&head, 99);
+    insertAtEnd(&head, 98);
+    insertAtEnd(&head, 97);
 
     printList(head);
 
