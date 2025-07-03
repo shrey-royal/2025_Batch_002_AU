@@ -64,6 +64,15 @@ void insertAtPosition(node** head, int data, int position) {
     temp->next = newNode;
 }
 
+void deleteAtBeginning(node** head) {
+    if (*head == NULL) {
+        printf("\nList is empty!");
+    } else {
+        node* temp = *head;
+        *head = (*head)->next;
+        free(temp);
+    }
+}
 
 void printList(node* head) {
     printf("\nList: ==> ");
@@ -88,11 +97,13 @@ int main() {
     // insertAtEnd(&head, 98);
     // insertAtEnd(&head, 97);
     printList(head);
-    insertAtPosition(&head, 999, 1);
-    insertAtPosition(&head, 333, 3);
-    insertAtPosition(&head, 666, 5);
+    // insertAtPosition(&head, 999, 1);
+    // insertAtPosition(&head, 333, 3);
+    // insertAtPosition(&head, 666, 5);
 
     printList(head);
+
+    deleteAtBeginning();
 
     return 0;
 }
