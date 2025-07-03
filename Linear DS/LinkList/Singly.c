@@ -103,7 +103,8 @@ int main() {
 
     printList(head);
 
-    deleteAtBeginning();
+    deleteAtBeginning(&head);
+    printList(head);
 
     return 0;
 }
