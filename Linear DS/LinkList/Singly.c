@@ -64,13 +64,57 @@ void insertAtPosition(node** head, int data, int position) {
     temp->next = newNode;
 }
 
-void deleteAtBeginning(node** head) {
+void deleteFromBeginning(node** head) {
     if (*head == NULL) {
         printf("\nList is empty!");
     } else {
         node* temp = *head;
         *head = (*head)->next;
         free(temp);
+    }
+}
+
+void deleteFromEnd(node** head) {
+    if (*head == NULL) {
+        printf("\nList is empty!");
+    } else if((*head)->next == NULL) {
+        deleteFromBeginning(head);
+    } else {
+        node* temp = *head;
+        while(temp->next->next != NULL) {
+            temp = temp->next;
+        }
+        free(temp->next);
+        temp->next = NULL;
+    }
+}
+
+int getLength(node* head) {
+    int count = 0;
+    while (head != NULL) {
+        count++;
+        head = head->next;
+    }
+    return count;
+}
+
+void deleteFromPosition(node** head, int position) {
+    int length = getLength(*head);
+
+    if (*head == NULL) {
+        printf("\nList is empty!");
+    } else if(position < 1 || position > length) {
+        printf("Invalid position!\n");
+    } else if (position == 1) {
+        deleteFromBeginning(head);
+    } else {
+        node* temp = *head;
+        for(int i = 1; i < position - 1; i++) {
+            temp = temp->next;
+        }
+        node* nodeToDelete = temp->next;
+        temp->next = temp->next->next;
+        free(nodeToDelete);
     }
 }
 
@@ -81,6 +125,12 @@ void printList(node* head) {
         head = head->next;
     }
     printf("NULL\n");
+}
+
+void printListFromEnd(node* head) {
+    if (head == NULL) return;
+    printListFromEnd(head->next);
+    printf("%d <- ", head->data);
 }
 
 int main() {
@@ -96,15 +146,23 @@ int main() {
     // insertAtEnd(&head, 99);
     // insertAtEnd(&head, 98);
     // insertAtEnd(&head, 97);
-    printList(head);
+    // printList(head);
     // insertAtPosition(&head, 999, 1);
     // insertAtPosition(&head, 333, 3);
     // insertAtPosition(&head, 666, 5);
 
     printList(head);
 
-    deleteAtBeginning(&head);
+    // deleteFromBeginning(&head);
+    // deleteFromEnd(&head);
+    // deleteFromEnd(&head);
+    // deleteFromEnd(&head);
+    deleteFromPosition(&head, 3);
     printList(head);
+
+    printf("\nList from end: ");
+    printListFromEnd(head);
+    printf("NULL\n");
 
     return 0;
 }
