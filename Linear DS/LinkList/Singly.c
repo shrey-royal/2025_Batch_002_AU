@@ -118,6 +118,29 @@ void deleteFromPosition(node** head, int position) {
     }
 }
 
+void reverseList(node** head) {
+    node* curr = *head;
+    node* prev = NULL;
+    node* following = NULL;
+    while (curr != NULL) {
+        following = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = following;
+    }
+    *head = prev;
+}
+
+int searchByValue(node* head, int key) {
+    while(head != NULL) {
+        if(head->data == key) {
+            return 1;
+        }
+        head = head->next;
+    }
+    return 0;
+}
+
 void printList(node* head) {
     printf("\nList: ==> ");
     while(head != NULL) {
@@ -157,12 +180,21 @@ int main() {
     // deleteFromEnd(&head);
     // deleteFromEnd(&head);
     // deleteFromEnd(&head);
-    deleteFromPosition(&head, 3);
-    printList(head);
+    // deleteFromPosition(&head, 3);
+    // printList(head);
 
-    printf("\nList from end: ");
-    printListFromEnd(head);
-    printf("NULL\n");
+    // printf("\nList from end: ");
+    // printListFromEnd(head);
+    // printf("NULL\n");
+
+    // reverseList(&head);
+    // printList(head);
+    
+    if (searchByValue(head, 40) == 1) {
+        printf("Key found!");
+    } else {
+        printf("Key not found!");
+    }
 
     return 0;
 }
