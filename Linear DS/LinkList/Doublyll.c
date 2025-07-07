@@ -22,6 +22,15 @@ node* createNode(int data) {
     return newNode;
 }
 
+int getLength(node* head) {
+    int count = 0;
+    while (head != NULL) {
+        count++;
+        head = head->next;
+    }
+    return count;
+}
+
 void insertAtBeginning(node** head, int value) {
     node* newNode = createNode(value);
 
@@ -46,8 +55,22 @@ void insertAtEnd(node** head, int value) {
     }
 }
 
-void insertAtPosition(node** head, int value) {
-    //
+void insertAtPosition(node** head, int value, int position) {
+    if (head == NULL || position == 1) {
+        insertAtBeginning(head, value);
+    } else if ((position < 0) || (getLength(*head) < position)) {
+        printf("Insertion at %d position is not possible!", position);
+    } else {
+        node* newNode = createNode(value);
+        node* temp = *head;
+        for (int i = 1; i < position - 1; i++) {
+            temp = temp->next;
+        }
+        newNode->next = temp->next;
+        temp->next->prev = newNode;
+        newNode->prev = temp;
+        temp->next = newNode;
+    }
 }
 
 void printList(node* head) {
@@ -69,6 +92,8 @@ int main() {
     insertAtEnd(&head, 40);
     insertAtEnd(&head, 50);
     insertAtEnd(&head, 60);
+
+    insertAtPosition(&head, 999, 3);
 
     printList(head);
 
