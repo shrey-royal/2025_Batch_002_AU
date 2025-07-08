@@ -73,6 +73,61 @@ void insertAtPosition(node** head, int value, int position) {
     }
 }
 
+void deleteAtBeginning(node** head) {
+    if (*head == NULL) {
+        printf("\nList is already empty. Nothing to delete.\n");
+    } else {
+        node* temp = *head;
+        *head = (*head)->next;
+
+        if (*head != NULL) {
+            (*head)->prev = NULL;
+        }
+        free(temp);
+    }
+}
+
+void deleteAtEnd(node** head) {
+    if (*head == NULL) {
+        printf("\nList is empty!");
+    } else if((*head)->next == NULL) {
+        deleteAtBeginning(head);
+    } else {
+        node* temp = *head;
+        while(temp->next->next != NULL) {
+            temp = temp->next;
+        }
+        free(temp->next);
+        temp->next = NULL;
+    }
+}
+
+void deleteAtPosition(node** head, int position) {
+    if (*head == NULL) {
+        printf("\nList is empty!");
+    } else if(position == 1) {
+        deleteAtBeginning(head);
+    } else if(position < 1 || position > getLength(*head)) {
+        printf("\nPosition %d does not exist in the list.\n", position);
+    } else {
+        node* curr = *head;
+        int currPosition = 1;
+
+        while(curr != NULL && currPosition < position) {
+            curr = curr->next;
+            currPosition++;
+        }
+    
+        if(curr->prev != NULL) {
+            curr->prev->next = curr->next;
+        }
+        if (curr->next != NULL) {
+            curr->next->prev = curr->prev;
+        }
+        free(curr);
+    }
+}
+
 void printList(node* head) {
     printf("\nList > \tNULL <-> ");
     while(head != NULL) {
@@ -93,7 +148,14 @@ int main() {
     insertAtEnd(&head, 50);
     insertAtEnd(&head, 60);
 
-    insertAtPosition(&head, 999, 3);
+    printList(head);
+
+    // insertAtPosition(&head, 999, 3);
+    // deleteAtBeginning(&head);
+    // deleteAtEnd(&head);
+    // deleteAtEnd(&head);
+
+    deleteAtPosition(&head, 4);
 
     printList(head);
 
