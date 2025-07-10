@@ -128,6 +128,30 @@ void deleteAtPosition(node** head, int position) {
     }
 }
 
+void reverseList(node** head) {
+    if (*head == NULL || (*head)->next == NULL) {
+        return;
+    } else {
+        node* curr = *head;
+        node* temp = NULL;
+
+        // Swapping prev and next
+        while(curr != NULL) {
+            temp = curr->prev;
+            curr->prev = curr->next;
+            curr->next = temp;
+
+            curr = curr->prev;
+        } 
+
+        // Adjusting head
+        if(temp != NULL) {
+            *head = temp->prev;
+        }
+    }
+}
+
+
 void printList(node* head) {
     printf("\nList > \tNULL <-> ");
     while(head != NULL) {
@@ -155,7 +179,8 @@ int main() {
     // deleteAtEnd(&head);
     // deleteAtEnd(&head);
 
-    deleteAtPosition(&head, 4);
+    // deleteAtPosition(&head, 4);
+    reverseList(&head);
 
     printList(head);
 
