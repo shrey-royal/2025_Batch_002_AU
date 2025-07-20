@@ -50,7 +50,40 @@ void postorder(node* root) {
     }
 }
 
-//search
+node* search(node* root, int value) {
+    if (root == NULL || root->data == value) return root;
+    
+    if (value < root->data) {
+        return search(root->left, value);
+    } else {
+        return search(root->right, value);
+    }
+}
+
+int height(node* root) {
+    if (root == NULL) return 0;
+    int leftHeight = height(root->left);
+    int rightHeight = height(root->right);
+
+    return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
+}
+
+void levelOrderTraversal(node* root) {
+    if (root == NULL) return;
+
+    node* queue[10];
+    int f=0, r=0;
+
+    queue[r++] = root; // initializing the queue with root
+
+    printf("\nLevel Order Traversal: ");
+    while(f < r) {
+        node* current = queue[f++];  //dequeue
+        printf("%d, ", current->data);
+        if(current->left != NULL) queue[r++] = current->left;
+        if(current->right != NULL) queue[r++] = current->right;
+    }
+}
 
 void printTree(node* root, int space) {
     if (root == NULL) {
@@ -78,16 +111,32 @@ int main() {
     insert(&root, 7);
     insert(&root, 13);
 
-    // printTree(root, 0);
+    printTree(root, 0);
 
-    printf("\nInorder Traversal: ");
-    inorder(root);
+    // printf("\nInorder Traversal: ");
+    // inorder(root);
 
     // printf("\nPreorder Traversal: ");
     // preorder(root);
 
     // printf("\nPostorder Traversal: ");
     // postorder(root);
+
+    // int data;
+    // printf("\nEnter value to search: ");
+    // scanf("%d", &data);
+
+    // if (search(root, data) != NULL) {
+    //     printf("\nKey %d exist in the tree.", data);
+    // } else {
+    //     printf("\nKey %d doesn't exist in the tree.", data);
+    // }
+
+    // printf("\nHeight of the tree is %d", height(root));
+
+    // levelOrderTraversal(root);
+
+    // findMinMax() <- TASK
 
     return 0;
 }
