@@ -68,6 +68,37 @@ int height(node* root) {
     return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
 }
 
+void deleteNode(node** root, int data) {
+    if (*root == NULL) {
+        printf("\nTree is empty!");
+        return;
+    }
+    
+    if (data < (*root)->data) {
+        deleteNode(&(*root)->left, data);
+    } else if (data > (*root)->data) {
+        deleteNode(&(*root)->right, data);
+    } else {
+        if ((*root)->left == NULL) {
+            node* temp = (*root)->right;
+            free(*root);
+            *root = temp;
+        } else if ((*root)->right == NULL) {
+            node* temp = (*root)->left;
+            free(*root);
+            *root = temp;
+        } else {
+            node* temp = (*root)->right;
+            while(temp->left != NULL) {
+                temp = temp->left;
+            }
+
+            (*root)->data = temp->data;
+            deleteNode(&(*root)->right, temp->data);
+        }
+    }
+}
+
 void levelOrderTraversal(node* root) {
     if (root == NULL) return;
 
@@ -137,6 +168,10 @@ int main() {
     // levelOrderTraversal(root);
 
     // findMinMax() <- TASK
+
+    // deleteNode(&root, 3);
+
+    printTree(root, 0);
 
     return 0;
 }
